@@ -1,0 +1,274 @@
+#LyX 1.6.8 created this file. For more info see http://www.lyx.org/
+\lyxformat 345
+\begin_document
+\begin_header
+\textclass article
+\use_default_options true
+\language english
+\inputencoding auto
+\font_roman default
+\font_sans default
+\font_typewriter default
+\font_default_family default
+\font_sc false
+\font_osf false
+\font_sf_scale 100
+\font_tt_scale 100
+
+\graphics default
+\paperfontsize default
+\spacing single
+\use_hyperref false
+\papersize default
+\use_geometry true
+\use_amsmath 1
+\use_esint 1
+\cite_engine basic
+\use_bibtopic false
+\paperorientation portrait
+\leftmargin 2cm
+\topmargin 2cm
+\rightmargin 2cm
+\bottommargin 2cm
+\secnumdepth 3
+\tocdepth 3
+\paragraph_separation indent
+\defskip medskip
+\quotes_language english
+\papercolumns 1
+\papersides 1
+\paperpagestyle default
+\tracking_changes false
+\output_changes false
+\author "" 
+\author "" 
+\end_header
+
+\begin_body
+
+\begin_layout Section*
+These are notes for Buntine & Jakulin paper: Discrete Component Analysis
+ 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "key-1"
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Gamma-Poisson (GP) model 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "key-2"
+
+\end_inset
+
+:
+\begin_inset Formula \[
+w_{j}=\sum_{k=1}^{K}\theta_{jk}l_{k}\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Itemize
+\begin_inset Formula $w_{j}$
+\end_inset
+
+ word count of 
+\begin_inset Formula $j$
+\end_inset
+
+th word in a document, 
+\begin_inset Formula $w_{j}\sim\mathrm{Po}(w_{j};(\mathbf{\theta l})_{j})=\frac{(\mathbf{\theta l})_{j}^{w_{j}}\exp(-(\mathbf{\theta l})_{j})}{w_{h}!}$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Itemize
+\begin_inset Formula $l_{k}$
+\end_inset
+
+ component scores (vector 
+\begin_inset Formula $\mathbf{l}$
+\end_inset
+
+) thaht indicate ammount of the component in the document 
+\begin_inset Formula $l_{k}\sim\mathrm{Gamma}(l_{k};\alpha_{k},\beta_{k})=\frac{l_{k}^{\alpha_{k}-1}\beta_{k}^{\alpha_{k}}\exp(-\beta_{k}l_{k})}{\Gamma(\alpha_{k})}$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Itemize
+\begin_inset Formula $\mathbf{\theta}$
+\end_inset
+
+ component loading matrix of size 
+\begin_inset Formula $J\times K$
+\end_inset
+
+.
+ 
+\begin_inset Formula $\theta_{jk}$
+\end_inset
+
+ controles partition of te 
+\begin_inset Formula $k$
+\end_inset
+
+th component in the 
+\begin_inset Formula $j$
+\end_inset
+
+th word
+\end_layout
+
+\begin_layout Standard
+The log-likelihood of this model:
+\begin_inset Formula \[
+\log p(\mathbf{w},l|\mathbf{\theta,}\mathrm{GP,K})=\sum_{k=1}^{K}\left\{ \alpha_{k}\log(\beta_{k})+(\alpha_{k}-1)\log l_{k}-\beta_{k}l_{k}-\log\Gamma(\alpha_{k})+\sum_{j=1}^{J}\left[w_{j}\log(\mathbf{\theta l})_{j}-(\mathbf{\theta l})_{j}-\log w_{j}!\right]\right\} \]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Section*
+Section 6: Components assignment for words.
+ 
+\end_layout
+
+\begin_layout Standard
+Introducing a discrete latent vector 
+\begin_inset Formula $\mathbf{c}$
+\end_inset
+
+ whose total count is 
+\begin_inset Formula $\sum_{j}w_{j}$
+\end_inset
+
+.
+ The count 
+\begin_inset Formula $c_{k}$
+\end_inset
+
+ gives the count of words in the document appearing in the 
+\begin_inset Formula $k$
+\end_inset
+
+th component.
+ It is derived from a latent matrix 
+\begin_inset Formula $\mathbf{V}$
+\end_inset
+
+ of size 
+\begin_inset Formula $J\times K$
+\end_inset
+
+ (entries 
+\begin_inset Formula $v_{jk}$
+\end_inset
+
+).
+ 
+\begin_inset Formula \begin{alignat*}{1}
+\sum_{j=1}^{J}v_{jk} & =c_{k}\\
+\sum_{k=1}^{K}v_{jk} & =w_{j}\end{alignat*}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+The distribution underlying the GP model now becomes 
+\begin_inset Formula \begin{alignat*}{1}
+l_{k} & \sim\mathrm{Gamma}(l_{k};\alpha_{k},\beta_{k})\\
+c_{k} & \sim\mathrm{Po}(c_{k};l_{k})\\
+v_{j,k} & \sim\mathrm{Multinom}(v_{jk};\theta_{jk},c_{k})=c_{k}!\prod_{j}\frac{\theta_{jk}^{v_{jk}}}{v_{jk}!}\end{alignat*}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Proof:
+\end_layout
+
+\begin_layout Standard
+We have 
+\begin_inset Formula $p(c_{k}|l_{k})=\mathrm{Po}(c_{k};l_{k})$
+\end_inset
+
+ and 
+\begin_inset Formula $p(v_{jk}|c_{k})=\mathrm{Binom}(v_{jk};\theta_{jk},c_{k})=\binom{c_{k}}{v_{jk}}\theta_{jk}^{v_{jk}}(1-\theta_{jk})^{c_{k}-v_{jk}}$
+\end_inset
+
+ (probability of having 
+\begin_inset Formula $v_{jk}$
+\end_inset
+
+ counts in 
+\begin_inset Formula $c_{k}$
+\end_inset
+
+ counts).
+ Then:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula \begin{alignat*}{1}
+p(v_{jk}|l_{k}) & =\sum_{c_{k}}p(v_{jk}|c_{k})p(c_{k}|l_{k})\\
+ & =\sum_{c_{k}=v_{jk}}^{\infty}\frac{c_{k}!}{v_{jk}!(c_{k}-v_{jk})!}\theta_{jk}^{v_{jk}}(1-\theta_{jk})^{c_{k}-v_{jk}}\frac{\exp(-l_{k})l_{k}^{c_{k}}}{c_{k}!}\\
+ & =\frac{\exp(-l_{k})\theta_{jk}^{v_{j}}}{v_{j}!}\sum_{c_{k}=v_{jk}}^{\infty}\frac{\theta_{jk}^{v_{jk}}(1-\theta_{jk})^{c_{k}-v_{jk}}}{(c_{k}-v_{jk})!}\end{alignat*}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Bibliography
+\begin_inset CommandInset bibitem
+LatexCommand bibitem
+key "key-1"
+
+\end_inset
+
+Buntine, W., & Jakulin, A.
+ (2006).
+ Discrete Componenet Analysis.
+ In C.
+ Saunders, M.
+ Grobelnik, S.
+ Gunn, & J.
+ Shawe-Taylor (Eds.), Subspace, Latent Structure and Feature Selection (pp.
+ 1-33).
+ Springer.
+\end_layout
+
+\begin_layout Bibliography
+\begin_inset CommandInset bibitem
+LatexCommand bibitem
+key "key-2"
+
+\end_inset
+
+Canny, J.
+ (2004).
+ GaP: a factor model for discrete data.
+ Proceedings of the 27th annual international ACM SIGIR conference on Research
+ and development in information retrieval (p.
+ 122–129).
+ ACM.
+ Retrieved January 25, 2011, from http://portal.acm.org/citation.cfm?id=1009016.
+\end_layout
+
+\end_body
+\end_document
