@@ -1,10 +1,10 @@
-#LyX 1.6.8 created this file. For more info see http://www.lyx.org/
+#LyX 1.6.5 created this file. For more info see http://www.lyx.org/
 \lyxformat 345
 \begin_document
 \begin_header
 \textclass article
 \use_default_options true
-\language english
+\language british
 \inputencoding auto
 \font_roman default
 \font_sans default
@@ -51,7 +51,7 @@ These are notes for Buntine & Jakulin paper: Discrete Component Analysis
  
 \begin_inset CommandInset citation
 LatexCommand cite
-key "key-1"
+key "buntine"
 
 \end_inset
 
@@ -62,7 +62,7 @@ key "key-1"
 Gamma-Poisson (GP) model 
 \begin_inset CommandInset citation
 LatexCommand cite
-key "key-2"
+key "canny"
 
 \end_inset
 
@@ -100,7 +100,7 @@ w_{j}\sim\mathrm{Po}(w_{j};(\mathbf{\theta l})_{j})=\frac{(\mathbf{\theta l})_{j
 \begin_inset Formula $\mathbf{l}$
 \end_inset
 
-) thaht indicate ammount of the component in the document 
+) that indicate amount of the component in the document 
 \begin_inset Formula \[
 l_{k}\sim\mathrm{Gamma}(l_{k};\alpha_{k},\beta_{k})=\frac{l_{k}^{\alpha_{k}-1}\beta_{k}^{\alpha_{k}}\exp(-\beta_{k}l_{k})}{\Gamma(\alpha_{k})}\]
 
@@ -122,7 +122,7 @@ l_{k}\sim\mathrm{Gamma}(l_{k};\alpha_{k},\beta_{k})=\frac{l_{k}^{\alpha_{k}-1}\b
 \begin_inset Formula $\theta_{jk}$
 \end_inset
 
- controles partition of te 
+ controls partition of the 
 \begin_inset Formula $k$
 \end_inset
 
@@ -135,9 +135,9 @@ th word
 
 \begin_layout Standard
 The log-likelihood of this model:
-\begin_inset Formula \begin{alignat*}{1}
-\log p(\mathbf{w},l|\mathbf{\theta,}\mathrm{GP,K}) & =\sum_{k=1}^{K}\left\{ \alpha_{k}\log(\beta_{k})+(\alpha_{k}-1)\log l_{k}-\beta_{k}l_{k}-\log\Gamma(\alpha_{k})+\sum_{j=1}^{J}\left[w_{j}\log(\mathbf{\theta l})_{j}-(\mathbf{\theta l})_{j}-\log w_{j}!\right]\right\} \\
- & =\sum_{k=1}^{K}\textrm{log likelihood of}\ l_{k}+\sum_{j=1}^{J}\textrm{log likelihood of}\ w_{j}\ \textrm{given}\ \mathbf{l}\end{alignat*}
+\begin_inset Formula \begin{alignat}{1}
+\log p(\mathbf{w},l|\mathbf{\theta,}\mathrm{GP,K}) & =\sum_{k=1}^{K}\left\{ \alpha_{k}\log(\beta_{k})+(\alpha_{k}-1)\log l_{k}-\beta_{k}l_{k}-\log\Gamma(\alpha_{k})+\sum_{j=1}^{J}\left[w_{j}\log(\mathbf{\theta l})_{j}-(\mathbf{\theta l})_{j}-\log w_{j}!\right]\right\} \label{eq:likelihood l}\\
+ & =\sum_{k=1}^{K}\textrm{log likelihood of}\ l_{k}+\sum_{j=1}^{J}\textrm{log likelihood of}\ w_{j}\ \textrm{given}\ \mathbf{l}\nonumber \end{alignat}
 
 \end_inset
 
@@ -348,32 +348,12 @@ p(V,l|\alpha,\beta,\theta,K)=\prod_{k}\frac{\beta_{k}^{\alpha_{k}}l_{k}^{c_{k}+\
 \begin_inset Formula $V$
 \end_inset
 
- so it is not represented...
- The term 
-\begin_inset Formula $l_{k}^{(c_{k}+\alpha_{k}-1)}=l_{k}^{(\sum_{j}v_{jk}+\alpha_{k}-1)}$
-\end_inset
-
- links together 
-\begin_inset Formula $l_{k}$
-\end_inset
-
- and 
-\begin_inset Formula $V$
-\end_inset
-
- and prevents simple evaluation of 
-\begin_inset Formula $\mathcal{Q}(\theta,\theta^{\mathrm{old}})=\mathbb{E}_{p(V,l|\theta^{\mathrm{old}})}\left[\log p(V,l|\theta,...)\right]$
-\end_inset
-
- in EM algorithm as because of the term 
-\begin_inset Formula $\mathbb{E}_{p(V,l|\theta^{\mathrm{old}})}\left[v_{jk}\right]$
-\end_inset
-
-
+ so it is not represented.
+ 
 \end_layout
 
 \begin_layout Standard
-It is possible to integtate out 
+It is possible to integrate out 
 \begin_inset Formula $l$
 \end_inset
 
@@ -408,11 +388,78 @@ p(V|\alpha,\beta,\theta,K)=\prod_{k}\frac{\beta_{k}}{\left(\beta_{k}+1\right)^{c
 \end_layout
 
 \begin_layout Section*
+EM algorithm
+\end_layout
+
+\begin_layout Standard
+The term 
+\begin_inset Formula $l_{k}^{(c_{k}+\alpha_{k}-1)}=l_{k}^{(\sum_{j}v_{jk}+\alpha_{k}-1)}$
+\end_inset
+
+ in Eq.
+\begin_inset CommandInset ref
+LatexCommand eqref
+reference "eq:likelihood V,l"
+
+\end_inset
+
+ links together 
+\begin_inset Formula $l_{k}$
+\end_inset
+
+ and 
+\begin_inset Formula $V$
+\end_inset
+
+ and prevents simple evaluation of 
+\begin_inset Formula $\mathcal{Q}(\theta,\theta^{\mathrm{old}})=\mathbb{E}_{p(V,l|\theta^{\mathrm{old}})}\left[\log p(V,l|\theta,...)\right]$
+\end_inset
+
+ in the EM algorithm because of the term 
+\begin_inset Formula $\mathbb{E}_{p(V,l|\theta^{\mathrm{old}})}\left[v_{jk}\right]$
+\end_inset
+
+.
+ 
+\end_layout
+
+\begin_layout Standard
+In the likelihood Eq.
+\begin_inset CommandInset ref
+LatexCommand eqref
+reference "eq:likelihood l"
+
+\end_inset
+
+ is problematic the term 
+\begin_inset Formula $w_{k}\log\sum_{k}\theta_{jk}l_{k}$
+\end_inset
+
+.
+ (In 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "canny"
+
+\end_inset
+
+ is the term 
+\begin_inset Formula $\mathbb{E}_{l}\left[\log\sum_{k}\theta_{jk}l_{k}\right]$
+\end_inset
+
+ approximated by 
+\begin_inset Formula $\log\mathbb{E}_{l}\left[\sum_{k}\theta_{jk}l_{k}\right]$
+\end_inset
+
+ which might be quite crude.)
+\end_layout
+
+\begin_layout Section*
 Section 7.1 Variational Approximation
 \end_layout
 
 \begin_layout Standard
-Factirised approximative posterior distribution for latent variables:
+Factorised approximate posterior distribution for latent variables:
 \end_layout
 
 \begin_layout Standard
@@ -451,29 +498,26 @@ key "bishop"
 
 \begin_layout Standard
 \begin_inset Formula \[
-\mathcal{L}(q,\theta)=\sum_{z}p(Z|X,\theta^{\mathrm{old}})\log p(X,Z|\theta)+\mathrm{const}=\mathcal{Q}(\theta,\theta^{\mathrm{old}})+\mathrm{const}\]
+\mathcal{L}(q,\theta)=\sum_{z}p(Z|X,\theta^{\mathrm{old}})\log p(X,Z|\theta)+C=\mathcal{Q}(\theta,\theta^{\mathrm{old}})+C\]
 
 \end_inset
 
-(
-\begin_inset Formula $\mathrm{const}$
+where 
+\begin_inset Formula \[
+C=-\mathbb{E}_{l\sim q_{l}}\left[\log q_{l}\right]-\mathbb{E}_{V\sim q_{V}}\left[\log q_{V}\right]=H(q_{l})+H(q_{V})\]
+
 \end_inset
 
- is an entropy term independent on 
-\begin_inset Formula $q$
-\end_inset
-
-, 
+are the entropy terms (independent on 
 \begin_inset Formula $\theta$
 \end_inset
 
 ).
- So
 \end_layout
 
 \begin_layout Standard
 \begin_inset Formula \begin{equation}
-\log p(w|\theta,\alpha,\beta,K)\geq\mathbb{E}_{l,V\sim q(l,V)}\left[\log p(l,V,w|\theta,\alpha,\beta,K)\right]+\mathrm{const}\label{eq:lower bound}\end{equation}
+\log p(w|\theta,\alpha,\beta,K)\geq\mathbb{E}_{l,V\sim q(l,V)}\left[\log p(l,V,w|\theta,\alpha,\beta,K)\right]+C\label{eq:lower bound}\end{equation}
 
 \end_inset
 
@@ -562,10 +606,10 @@ v_{jk}\log n_{jk}-\log v_{jk}!+\mathrm{const}=v_{jk}\mathbb{E}_{l}\left[\log l_{
 \end_inset
 
 so the rewrite rules for the parameters:
-\begin_inset Formula \begin{alignat*}{1}
-n_{jk} & =\frac{1}{z_{jk}}\theta_{jk}\exp(\mathbb{E}_{l}\left[\log l_{k}\right])\\
-a_{k} & =\sum_{j}n_{jk}w_{j}+\alpha_{k}\\
-b_{k} & =1+\beta_{k}\end{alignat*}
+\begin_inset Formula \begin{alignat}{1}
+n_{jk} & =\frac{1}{z_{jk}}\theta_{jk}\exp(\mathbb{E}_{l}\left[\log l_{k}\right])\nonumber \\
+a_{k} & =\sum_{j}n_{jk}w_{j}+\alpha_{k}\label{eq:rewrite rules}\\
+b_{k} & =1+\beta_{k}\nonumber \end{alignat}
 
 \end_inset
 
@@ -573,7 +617,7 @@ where
 \begin_inset Formula $z_{jk}$
 \end_inset
 
- is the normalisation constat (
+ is the normalisation constant (
 \begin_inset Formula $\sum_{k}n_{jk}=1$
 \end_inset
 
@@ -594,7 +638,7 @@ where
 \begin_inset Formula $w_{j}$
 \end_inset
 
- it 
+ in the 
 \begin_inset Formula $k$
 \end_inset
 
@@ -607,7 +651,7 @@ th component).
 \begin_inset Formula $\psi_{0}$
 \end_inset
 
- is digamma fucntion (logarithmic derivation of the gamma function...) 
+ is digamma function (logarithmic derivation of the gamma function...) 
 \end_layout
 
 \begin_layout Standard
@@ -615,7 +659,7 @@ Now recompute model parameter
 \begin_inset Formula $\mathbf{\theta}$
 \end_inset
 
-by maximizing lower bound Eq.
+ by maximising lower bound Eq.
 \begin_inset CommandInset ref
 LatexCommand eqref
 reference "eq:lower bound"
@@ -661,7 +705,7 @@ we get
 
 \end_inset
 
-and from normalization constraints 
+and from normalisation constraints 
 \begin_inset Formula $\lambda_{n}=\sum_{m}n_{mn}w_{m}$
 \end_inset
 
@@ -682,8 +726,8 @@ If we take likelihood function over all documents (
 \end_inset
 
  then we get 
-\begin_inset Formula \[
-\theta_{mn}=\frac{\sum_{i}n_{mn(i)}w_{m(i)}}{\lambda_{n}}\]
+\begin_inset Formula \begin{equation}
+\theta_{mn}=\frac{\sum_{i}n_{mn(i)}w_{m(i)}}{\lambda_{n}}\label{eq:update theta}\end{equation}
 
 \end_inset
 
@@ -740,16 +784,160 @@ key "buntine"
 
 \end_inset
 
-and by maximizing with normalization constraints:
+and by maximising with normalisation constraints:
 \end_layout
 
 \begin_layout Standard
-\begin_inset Formula \[
-\theta_{mn}\propto\sum_{i}n_{mn(i)}w_{m(i)}+\gamma_{j}\]
+\begin_inset Formula \begin{equation}
+\theta_{mn}\propto\sum_{i}n_{mn(i)}w_{m(i)}+\gamma_{j}\label{eq:update theta - prior}\end{equation}
 
 \end_inset
 
 
+\end_layout
+
+\begin_layout Standard
+The lower bound Eq.
+\begin_inset CommandInset ref
+LatexCommand eqref
+reference "eq:lower bound"
+
+\end_inset
+
+
+\begin_inset Formula \begin{alignat*}{1}
+\mathcal{L}(\theta) & =\mathbb{E}_{l,V\sim q(l,V)}\left[\sum_{k}(c_{k}+\alpha_{k}-1)\log l_{k}-(\beta_{k}+1)l_{k}+\log\frac{\beta_{k}^{\alpha_{k}}}{\Gamma(\alpha_{k})}+\sum_{j}\left[v_{jk}\log\theta_{jk}-\log v_{jk}!\right]\right]+C\\
+ & =\sum_{k}\mathbb{E}_{l}\left[\log l_{k}\right](\sum_{j}\mathbb{E}_{V}\left[v_{jk}\right]+\alpha_{k}-1)-(\beta_{k}+1)l_{k}+\log\frac{\beta_{k}^{\alpha_{k}}}{\Gamma(\alpha_{k})}\\
+ & +\sum_{j}\left[\mathbb{E}_{V}\left[v_{jk}\right]\left(\log n_{jk}+\log z_{j}-\mathbb{E}_{l}\left[\log l_{k}\right]-\mathbb{E}_{V}\left[\log v_{jk}!\right]\right)\right]+C\\
+ & =\sum_{k}\mathbb{E}_{l}\left[\log l_{k}\right](\alpha_{k}-1)-(\beta_{k}+1)l_{k}+\log\frac{\beta_{k}^{\alpha_{k}}}{\Gamma(\alpha_{k})}+\sum_{j}\left[\mathbb{E}_{V}\left[v_{jk}\right]\left(\log n_{jk}+\log z_{j}-\log v_{jk}!\right)\right]+C\end{alignat*}
+
+\end_inset
+
+where Eq.
+\begin_inset CommandInset ref
+LatexCommand eqref
+reference "eq:rewrite rules"
+
+\end_inset
+
+ for 
+\begin_inset Formula $\theta$
+\end_inset
+
+ was used and 
+\begin_inset Formula $c_{k}=\sum_{j}v_{jk}$
+\end_inset
+
+.
+ 
+\end_layout
+
+\begin_layout Standard
+Including entropy terms 
+\begin_inset Formula $C=H(q_{l})+H(q_{V})$
+\end_inset
+
+ from Eq.
+\begin_inset CommandInset ref
+LatexCommand eqref
+reference "eq:lower bound"
+
+\end_inset
+
+
+\begin_inset Formula \begin{alignat*}{1}
+H(q_{l}) & =-\sum_{k}\left\{ (a_{k}-1)\mathbb{E}_{l}\left[\log l_{k}\right]-b_{k}\mathbb{E}_{l}\left[l_{k}\right]-\log\frac{b_{k}^{a_{k}}}{\Gamma(a_{k})}\right\} \\
+H(q_{V}) & =-\sum_{jk}\left\{ -\mathbb{E}_{V}\left[\log v_{jk}!\right]+\mathbb{E}_{V}\left[v_{jk}\right]\log n_{jk}+\log w_{j}!\right\} \end{alignat*}
+
+\end_inset
+
+we get 
+\begin_inset Formula \begin{equation}
+\mathcal{L}=\sum_{k}\mathbb{E}_{l}\left[\log l_{k}\right](\alpha_{k}-a_{k})+\sum_{j}w_{j}\log z_{j}+\sum_{k}\log\frac{\Gamma(a_{k})\beta_{k}^{\alpha_{k}}}{\Gamma(\alpha_{k})b_{k}^{a_{k}}}-\log\prod_{j}w_{j}!\label{eq:lower bound final}\end{equation}
+
+\end_inset
+
+where Eq.
+\begin_inset CommandInset ref
+LatexCommand eqref
+reference "eq:rewrite rules"
+
+\end_inset
+
+ for 
+\begin_inset Formula $b_{k}$
+\end_inset
+
+ and 
+\begin_inset Formula $\sum_{k}n_{jk}=1$
+\end_inset
+
+ was used.
+ 
+\end_layout
+
+\begin_layout Standard
+After initialisation the algorithm then repeats until convergence:
+\end_layout
+
+\begin_layout Enumerate
+For each document: update 
+\begin_inset Formula $n_{jk}$
+\end_inset
+
+ and 
+\begin_inset Formula $a_{k}$
+\end_inset
+
+ according to Eq.
+\begin_inset CommandInset ref
+LatexCommand eqref
+reference "eq:rewrite rules"
+
+\end_inset
+
+ (variational E step).
+\end_layout
+
+\begin_layout Enumerate
+Update 
+\begin_inset Formula $\mathbf{\theta}$
+\end_inset
+
+ according to Eq.
+\begin_inset CommandInset ref
+LatexCommand eqref
+reference "eq:update theta"
+
+\end_inset
+
+ or 
+\begin_inset CommandInset ref
+LatexCommand eqref
+reference "eq:update theta - prior"
+
+\end_inset
+
+ (variational M step).
+\end_layout
+
+\begin_layout Enumerate
+Compute lower bound on log-probability Eq.
+\begin_inset CommandInset ref
+LatexCommand eqref
+reference "eq:lower bound final"
+
+\end_inset
+
+ and check for convergence.
+\end_layout
+
+\begin_layout Section*
+NMF
+\end_layout
+
+\begin_layout Standard
+add correspondance to NMF...
 \end_layout
 
 \begin_layout Bibliography
@@ -759,16 +947,13 @@ key "buntine"
 
 \end_inset
 
-Buntine, W., & Jakulin, A.
- (2006).
- Discrete Componenet Analysis.
- In C.
- Saunders, M.
- Grobelnik, S.
- Gunn, & J.
- Shawe-Taylor (Eds.), Subspace, Latent Structure and Feature Selection (pp.
- 1-33).
- Springer.
+Buntine W, Jakulin A.
+ Discrete component analysis.
+ In: Saunders C, Grobelnik M, Gunn S, Shawe-Taylor J, eds.
+ Subspace, Latent Structure and Feature Selection.
+ Springer; 2006:1â33.
+ Available at: http://www.springerlink.com/index/d53027666542q3v7.pdf [Accessed
+ January 26, 2011].
 \end_layout
 
 \begin_layout Bibliography
