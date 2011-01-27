@@ -1,4 +1,4 @@
-#LyX 1.6.5 created this file. For more info see http://www.lyx.org/
+#LyX 1.6.8 created this file. For more info see http://www.lyx.org/
 \lyxformat 345
 \begin_document
 \begin_header
@@ -570,11 +570,16 @@ reference "eq:log-likelihood V,l"
 
 
 \begin_inset Formula \[
-(a_{k}-1)\log l_{k}-b_{k}l_{k}+\mathrm{const}=(c_{k}+\alpha_{k}-1)\log l_{k}-(\beta_{k}+1)l_{k}+\mathrm{const}\]
+(a_{k}-1)\log l_{k}-b_{k}l_{k}+\mathrm{const}=(\sum_{j}\mathbb{E}_{V}\left[v_{jk}\right]+\alpha_{k}-1)\log l_{k}-(\beta_{k}+1)l_{k}+\mathrm{const}\]
 
 \end_inset
 
-and form Eq.
+where 
+\begin_inset Formula $c_{k}=\sum_{j}v_{jk}$
+\end_inset
+
+.
+ Form Eq.
 \begin_inset CommandInset ref
 LatexCommand eqref
 reference "eq:optimal q(V)"
@@ -607,14 +612,14 @@ v_{jk}\log n_{jk}-\log v_{jk}!+\mathrm{const}=v_{jk}\mathbb{E}_{l}\left[\log l_{
 
 so the rewrite rules for the parameters:
 \begin_inset Formula \begin{alignat}{1}
-n_{jk} & =\frac{1}{z_{jk}}\theta_{jk}\exp(\mathbb{E}_{l}\left[\log l_{k}\right])\nonumber \\
+n_{jk} & =\frac{1}{z_{j}}\theta_{jk}\exp(\mathbb{E}_{l}\left[\log l_{k}\right])\nonumber \\
 a_{k} & =\sum_{j}n_{jk}w_{j}+\alpha_{k}\label{eq:rewrite rules}\\
 b_{k} & =1+\beta_{k}\nonumber \end{alignat}
 
 \end_inset
 
 where 
-\begin_inset Formula $z_{jk}$
+\begin_inset Formula $z_{j}$
 \end_inset
 
  is the normalisation constant (
@@ -622,27 +627,21 @@ where
 \end_inset
 
 ) so 
-\begin_inset Formula $z_{jk}=\sum_{k}\theta_{jk}\exp(\mathbb{E}_{l}\left[\log l_{k}\right])$
+\begin_inset Formula $z_{j}=\sum_{k}\theta_{jk}\exp(\mathbb{E}_{l}\left[\log l_{k}\right])$
 \end_inset
 
  and 
-\begin_inset Formula $\sum_{j}n_{jk}w_{j}=c_{k}$
+\begin_inset Formula $\sum_{j}\mathbb{E}_{V}\left[v_{jk}\right]=\sum_{j}n_{jk}w_{j}$
 \end_inset
 
-.
- (
-\begin_inset Formula $n_{jk}$
+ (Eq.
+\begin_inset CommandInset ref
+LatexCommand eqref
+reference "eq:optimal q(V)"
+
 \end_inset
 
- is the proportion of the 
-\begin_inset Formula $w_{j}$
-\end_inset
-
- in the 
-\begin_inset Formula $k$
-\end_inset
-
-th component).
+).
  
 \begin_inset Formula $\mathbb{E}_{l\sim q_{l}}\left[\log l_{k}\right]=\psi_{0}(a_{k})-\log b_{k}$
 \end_inset

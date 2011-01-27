@@ -1,4 +1,4 @@
-#LyX 1.6.5 created this file. For more info see http://www.lyx.org/
+#LyX 1.6.8 created this file. For more info see http://www.lyx.org/
 \lyxformat 345
 \begin_document
 \begin_header
@@ -570,11 +570,16 @@ reference "eq:log-likelihood V,l"
 
 
 \begin_inset Formula \[
-(a_{k}-1)\log l_{k}-b_{k}l_{k}+\mathrm{const}=(c_{k}+\alpha_{k}-1)\log l_{k}-(\beta_{k}+1)l_{k}+\mathrm{const}\]
+(a_{k}-1)\log l_{k}-b_{k}l_{k}+\mathrm{const}=(\sum_{j}\mathbb{E}_{V}\left[v_{jk}\right]+\alpha_{k}-1)\log l_{k}-(\beta_{k}+1)l_{k}+\mathrm{const}\]
 
 \end_inset
 
-and form Eq.
+where 
+\begin_inset Formula $c_{k}=\sum_{j}v_{jk}$
+\end_inset
+
+.
+ Form Eq.
 \begin_inset CommandInset ref
 LatexCommand eqref
 reference "eq:optimal q(V)"
@@ -626,23 +631,17 @@ where
 \end_inset
 
  and 
-\begin_inset Formula $\sum_{j}n_{jk}w_{j}=c_{k}$
+\begin_inset Formula $\sum_{j}\mathbb{E}_{V}\left[v_{jk}\right]=\sum_{j}n_{jk}w_{j}$
 \end_inset
 
-.
- (
-\begin_inset Formula $n_{jk}$
+ (Eq.
+\begin_inset CommandInset ref
+LatexCommand eqref
+reference "eq:optimal q(V)"
+
 \end_inset
 
- is the proportion of the 
-\begin_inset Formula $w_{j}$
-\end_inset
-
- in the 
-\begin_inset Formula $k$
-\end_inset
-
-th component).
+).
  
 \begin_inset Formula $\mathbb{E}_{l\sim q_{l}}\left[\log l_{k}\right]=\psi_{0}(a_{k})-\log b_{k}$
 \end_inset
@@ -947,16 +946,13 @@ key "buntine"
 
 \end_inset
 
-Buntine, W., & Jakulin, A.
- (2006).
- Discrete Component Analysis.
- In C.
- Saunders, M.
- Grobelnik, S.
- Gunn, & J.
- Shawe-Taylor (Eds.), Subspace, Latent Structure and Feature Selection (pp.
- 1-33).
- Springer.
+Buntine W, Jakulin A.
+ Discrete component analysis.
+ In: Saunders C, Grobelnik M, Gunn S, Shawe-Taylor J, eds.
+ Subspace, Latent Structure and Feature Selection.
+ Springer; 2006:1â33.
+ Available at: http://www.springerlink.com/index/d53027666542q3v7.pdf [Accessed
+ January 26, 2011].
 \end_layout
 
 \begin_layout Bibliography
