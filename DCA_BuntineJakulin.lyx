@@ -672,7 +672,7 @@ reference "eq:lower bound"
 
 \end_inset
 
- (keeping constraints 
+ (with constraints 
 \begin_inset Formula $\sum_{j}\theta_{jk}=1$
 \end_inset
 
@@ -958,8 +958,12 @@ Image of the digamma function
 \begin_inset Formula $\exp(\psi_{0}(x))$
 \end_inset
 
- (pretty much linear for 
-\begin_inset Formula $x>1$
+ (pretty much linear 
+\begin_inset Formula $\exp(\psi_{0}(x))\approx x$
+\end_inset
+
+ for 
+\begin_inset Formula $x>10$
 \end_inset
 
 ).

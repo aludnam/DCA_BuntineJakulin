@@ -958,8 +958,12 @@ Image of the digamma function
 \begin_inset Formula $\exp(\psi_{0}(x))$
 \end_inset
 
- (pretty much linear for 
-\begin_inset Formula $x>1$
+ (pretty much linear 
+\begin_inset Formula $\exp(\psi_{0}(x))\approx x$
+\end_inset
+
+ for 
+\begin_inset Formula $x>10$
 \end_inset
 
 ).
@@ -977,14 +981,14 @@ status open
 \align center
 \begin_inset Graphics
 	filename images/psi.eps
-	scale 50
+	scale 40
 
 \end_inset
 
 
 \begin_inset Graphics
 	filename images/exppsi.eps
-	scale 50
+	scale 40
 
 \end_inset
 
@@ -1075,7 +1079,7 @@ w_{jk}=\frac{\sum_{i}n_{jk(i)}v_{j(i)}}{\lambda_{j}}\]
 \begin_layout Standard
 The lower bound on the log-likelihood:
 \begin_inset Formula \[
-\mathcal{L}_{(i)}=\sum_{k}\left(\psi_{0}(a_{k(i)})-\log b_{k(i)}\right)\left(\alpha_{k}-a_{k(i)}\right)+\sum_{j}v_{j(i)}\log z_{j(i)}+\sum_{k}\log\frac{\Gamma(a_{k})\beta_{k}^{\alpha_{k}}}{\Gamma(\alpha_{k(i)})b_{k(i)}^{a_{k(i)}}}-\log\prod_{j}v_{j(i)}!\]
+\mathcal{L}_{(i)}=\sum_{k}\left(\psi_{0}(a_{k(i)})-\log b_{k(i)}\right)\left(\alpha_{k}-a_{k(i)}\right)+\sum_{j}v_{j(i)}\log z_{j(i)}+\sum_{k}\log\frac{\Gamma(a_{k(i)})\beta_{k}^{\alpha_{k}}}{\Gamma(\alpha_{k})b_{k(i)}^{a_{k(i)}}}-\log\prod_{j}v_{j(i)}!\]
 
 \end_inset
 
