@@ -1,4 +1,4 @@
-#LyX 1.6.8 created this file. For more info see http://www.lyx.org/
+#LyX 1.6.5 created this file. For more info see http://www.lyx.org/
 \lyxformat 345
 \begin_document
 \begin_header
@@ -637,7 +637,7 @@ where
  (Eq.
 \begin_inset CommandInset ref
 LatexCommand eqref
-reference "eq:optimal q(V)"
+reference "eq:q(V)"
 
 \end_inset
 
@@ -672,7 +672,7 @@ reference "eq:lower bound"
 
 \end_inset
 
- (keeping constraints 
+ (with constraints 
 \begin_inset Formula $\sum_{j}\theta_{jk}=1$
 \end_inset
 
