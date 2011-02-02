@@ -1,0 +1,1209 @@
+#LyX 1.6.8 created this file. For more info see http://www.lyx.org/
+\lyxformat 345
+\begin_document
+\begin_header
+\textclass article
+\use_default_options true
+\language british
+\inputencoding auto
+\font_roman default
+\font_sans default
+\font_typewriter default
+\font_default_family default
+\font_sc false
+\font_osf false
+\font_sf_scale 100
+\font_tt_scale 100
+
+\graphics default
+\float_placement H
+\paperfontsize default
+\spacing single
+\use_hyperref false
+\papersize default
+\use_geometry true
+\use_amsmath 1
+\use_esint 1
+\cite_engine basic
+\use_bibtopic false
+\paperorientation portrait
+\leftmargin 2cm
+\topmargin 2cm
+\rightmargin 2cm
+\bottommargin 2cm
+\secnumdepth 3
+\tocdepth 3
+\paragraph_separation indent
+\defskip medskip
+\quotes_language english
+\papercolumns 1
+\papersides 1
+\paperpagestyle default
+\tracking_changes false
+\output_changes false
+\author "" 
+\author "" 
+\end_header
+
+\begin_body
+
+\begin_layout Section*
+These are notes for Buntine & Jakulin paper: Discrete Component Analysis
+ 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "buntine"
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Gamma-Poisson (GP) model 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "canny"
+
+\end_inset
+
+:
+\begin_inset Formula \[
+\mathbb{E}_{w\sim p(w|l,\theta)}\left[w_{j}\right]=\sum_{k=1}^{K}\theta_{jk}l_{k}\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Itemize
+\begin_inset Formula $w_{j}$
+\end_inset
+
+ word count of 
+\begin_inset Formula $j$
+\end_inset
+
+th word in a document 
+\begin_inset Formula \[
+w_{j}\sim\mathrm{Po}(w_{j};(\mathbf{\theta l})_{j})=\frac{(\mathbf{\theta l})_{j}^{w_{j}}\exp(-(\mathbf{\theta l})_{j})}{w_{h}!}\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Itemize
+\begin_inset Formula $l_{k}$
+\end_inset
+
+ component scores (vector 
+\begin_inset Formula $\mathbf{l}$
+\end_inset
+
+) that indicate amount of the component in the document 
+\begin_inset Formula \[
+l_{k}\sim\mathrm{Gamma}(l_{k};\alpha_{k},\beta_{k})=\frac{l_{k}^{\alpha_{k}-1}\beta_{k}^{\alpha_{k}}\exp(-\beta_{k}l_{k})}{\Gamma(\alpha_{k})}\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Itemize
+\begin_inset Formula $\mathbf{\theta}$
+\end_inset
+
+ component loading matrix of size 
+\begin_inset Formula $J\times K$
+\end_inset
+
+.
+ 
+\begin_inset Formula $\theta_{jk}$
+\end_inset
+
+ controls partition of the 
+\begin_inset Formula $k$
+\end_inset
+
+th component in the 
+\begin_inset Formula $j$
+\end_inset
+
+th word
+\end_layout
+
+\begin_layout Standard
+The log-likelihood of this model:
+\begin_inset Formula \begin{alignat}{1}
+\log p(\mathbf{w},l|\mathbf{\theta,}\mathrm{GP,K}) & =\sum_{k=1}^{K}\left\{ \alpha_{k}\log(\beta_{k})+(\alpha_{k}-1)\log l_{k}-\beta_{k}l_{k}-\log\Gamma(\alpha_{k})+\sum_{j=1}^{J}\left[w_{j}\log(\mathbf{\theta l})_{j}-(\mathbf{\theta l})_{j}-\log w_{j}!\right]\right\} \label{eq:likelihood l}\\
+ & =\sum_{k=1}^{K}\textrm{log likelihood of}\ l_{k}+\sum_{j=1}^{J}\textrm{log likelihood of}\ w_{j}\ \textrm{given}\ \mathbf{l}\nonumber \end{alignat}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Section*
+Section 6: Components assignment for words.
+ 
+\end_layout
+
+\begin_layout Standard
+Introducing a discrete latent vector 
+\begin_inset Formula $\mathbf{c}$
+\end_inset
+
+ whose total count is 
+\begin_inset Formula $\sum_{j}w_{j}$
+\end_inset
+
+.
+ The count 
+\begin_inset Formula $c_{k}$
+\end_inset
+
+ gives the count of words in the document appearing in the 
+\begin_inset Formula $k$
+\end_inset
+
+th component.
+ It is derived from a latent matrix 
+\begin_inset Formula $\mathbf{V}$
+\end_inset
+
+ of size 
+\begin_inset Formula $J\times K$
+\end_inset
+
+ (entries 
+\begin_inset Formula $v_{jk}$
+\end_inset
+
+).
+ 
+\begin_inset Formula \begin{alignat*}{1}
+\sum_{j=1}^{J}v_{jk} & =c_{k}\\
+\sum_{k=1}^{K}v_{jk} & =w_{j}\end{alignat*}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+The distribution underlying the GP model now becomes 
+\begin_inset Formula \begin{alignat*}{1}
+l_{k} & \sim\mathrm{Gamma}(l_{k};\alpha_{k},\beta_{k})\\
+c_{k} & \sim\mathrm{Po}(c_{k};l_{k})\\
+v_{j,k} & \sim\mathrm{Multinom}(v_{jk};\theta_{jk},c_{k})=c_{k}!\prod_{j}\frac{\theta_{jk}^{v_{jk}}}{v_{jk}!}\end{alignat*}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Proof:
+\end_layout
+
+\begin_layout Standard
+We have 
+\begin_inset Formula $p(c_{k}|l_{k})=\mathrm{Po}(c_{k};l_{k})$
+\end_inset
+
+ and 
+\begin_inset Formula $p(v_{jk}|c_{k})=\mathrm{Binom}(v_{jk};\theta_{jk},c_{k})=\binom{c_{k}}{v_{jk}}\theta_{jk}^{v_{jk}}(1-\theta_{jk})^{c_{k}-v_{jk}}$
+\end_inset
+
+ (probability of having 
+\begin_inset Formula $v_{jk}$
+\end_inset
+
+ counts in 
+\begin_inset Formula $c_{k}$
+\end_inset
+
+ counts).
+ Then:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula \begin{alignat*}{2}
+p(v_{jk}|l_{k}) & =\sum_{c_{k}}p(v_{jk}|c_{k})p(c_{k}|l_{k})\\
+ & =\sum_{c_{k}=v_{jk}}^{\infty}\frac{c_{k}!}{v_{jk}!(c_{k}-v_{jk})!}\theta_{jk}^{v_{jk}}(1-\theta_{jk})^{c_{k}-v_{jk}}\times\frac{l_{k}^{c_{k}}\exp(-l_{k})}{c_{k}!}\\
+ & =\frac{\exp(-l_{k})\theta_{jk}^{v_{jk}}}{v_{jk}!}\sum_{c_{k}=v_{jk}}^{\infty}\frac{l_{k}^{c_{k}}(1-\theta_{jk})^{c_{k}-v_{jk}}}{(c_{k}-v_{jk})!} & |\alpha_{jk}=c_{k}-v_{jk}\\
+ & =\frac{\exp(-l_{k})(\theta_{jk}l_{k})^{v_{jk}}}{v_{jk}!}\sum_{\alpha_{jk}=0}^{\infty}\frac{(l_{k}-\theta_{jk}l_{k})^{\alpha_{jk}}}{(\alpha_{jk})!}\\
+ & =\frac{\exp(-l_{k})(\theta_{jk}l_{k})^{v_{jk}}}{v_{jk}!}\exp(l_{k}-\theta_{jk}l_{k})\\
+ & =\frac{(\theta_{jk}l_{k})^{v_{jk}}\exp(-\theta_{jk}l_{k})}{v_{jk}!}\end{alignat*}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+and so 
+\begin_inset Formula $p(v_{jk}|l_{k})\sim\mathrm{Po}(v_{jk};\theta_{jk}l_{k})$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Standard
+Now sum of two independent Poisson distributed variables 
+\begin_inset Formula $Z=X_{1}+X_{2}$
+\end_inset
+
+ (
+\begin_inset Formula $X_{i}\sim\mathrm{\mathrm{Po}}(x;\lambda_{i})$
+\end_inset
+
+)is Poisson distributed:
+\begin_inset Formula \begin{alignat*}{1}
+p(Z) & =\sum_{x_{1}=0}^{z}p(X_{1})p(Z-X_{1})\\
+ & =\sum_{x_{1}=0}^{z}\frac{\lambda_{1}^{x_{1}}e^{-\lambda_{1}}}{x_{1}!}\frac{\lambda_{2}^{z-x_{1}}e^{-\lambda_{2}}}{(z-x_{1})!}\\
+ & =\frac{e^{-(\lambda_{1}+\lambda_{2})}}{z!}\sum_{x_{1}=0}^{z}\frac{z!}{x_{1}!(z-x_{1})!}\lambda_{1}^{x_{1}}\lambda_{2}^{z-x_{1}}\\
+ & =\frac{(\lambda_{1}+\lambda_{2})^{z}e^{-(\lambda_{1}+\lambda_{2})}}{z!}\end{alignat*}
+
+\end_inset
+
+for more by induction.
+ 
+\end_layout
+
+\begin_layout Standard
+So 
+\begin_inset Formula $w_{j}=\sum_{k=1}^{K}v_{jk}$
+\end_inset
+
+ is Poisson distributed:
+\begin_inset Formula \[
+w_{j}\sim\mathrm{Po}(w_{j};\sum_{k=1}^{K}\theta_{jk}l_{k})\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+The joint distribution for 
+\begin_inset Formula $v_{jk}$
+\end_inset
+
+ (each is Poisson):
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula \begin{alignat*}{2}
+p(v_{1,k},v_{2,k}...v_{J,k}|l_{k},\theta_{jk}) & =\prod_{j=1}^{J}\frac{(\theta_{jk}l_{k})^{v_{jk}}\exp(-\theta_{jk}l_{k})}{v_{jk}!}\\
+ & =e^{-l_{k}\sum_{j}\theta_{jk}}l_{k}^{\sum_{j}v_{jk}}\prod_{j}\frac{\theta{}^{v_{jk}}}{v_{jk}!} & |\sum_{j}\theta_{jk}=1,\sum_{j}v_{jk}=c_{k}\\
+ & =\frac{l_{k}^{c_{k}}e^{-l_{k}}}{c_{k}!}c_{k}!\prod_{j}\frac{\theta{}^{v_{jk}}}{v_{jk}!}\\
+ & =\mathrm{Po}(c_{k};l_{k})\times\mathrm{Multinom}(v_{jk};\theta_{jk},c_{k})\end{alignat*}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+The likelihood of GaP model with latent matrix 
+\begin_inset Formula $V$
+\end_inset
+
+ is then 
+\begin_inset Formula \begin{alignat*}{1}
+p(V,l|\alpha,\beta,\theta,K) & =\prod_{k}p(l_{k}|\alpha_{k},\beta_{k})\prod_{jk}p(v_{1k},v_{2k}...v_{J,k}|l_{k},\theta_{jk})\\
+ & =\prod_{k}\mathrm{Gamma}(l_{k};\alpha_{k},\beta_{k})\prod_{jk}\mathrm{Po}(c_{k};l_{k})\times\mathrm{Multinom}(v_{jk};\theta_{jk},c_{k})\end{alignat*}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+explicitly:
+\begin_inset Formula \begin{equation}
+p(V,l|\alpha,\beta,\theta,K)=\prod_{k}\frac{\beta_{k}^{\alpha_{k}}l_{k}^{c_{k}+\alpha_{k}-1}\exp(-(\beta_{k}+1)l_{k})}{\Gamma(\alpha_{k})}\prod_{jk}\frac{\theta_{jk}^{v_{jk}}}{v_{jk}!}\label{eq:likelihood V,l}\end{equation}
+
+\end_inset
+
+ and 
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula \begin{multline}
+\log p(V,l|\alpha,\beta,\theta,K)=\sum_{k}\left\{ (c_{k}+\alpha_{k}-1)\log l_{k}-(\beta_{k}+1)l_{k}+\alpha_{k}\log\beta_{k}-\log\Gamma(\alpha_{k})+\sum_{j}\left[v_{jk}\log\theta_{jk}-\log v_{jk}!\right]\right\} \label{eq:log-likelihood V,l}\end{multline}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula $w_{j}$
+\end_inset
+
+ is derived from 
+\begin_inset Formula $V$
+\end_inset
+
+ so it is not represented.
+ 
+\end_layout
+
+\begin_layout Standard
+It is possible to integrate out 
+\begin_inset Formula $l$
+\end_inset
+
+ (not sure about discrete values...?):
+\begin_inset Formula \begin{alignat*}{1}
+p(V|\alpha,\beta,\theta,K) & =\int_{0}^{\infty}p(V,l|\alpha,\beta,\theta,K)dl\\
+ & =\prod_{jk}\frac{\theta_{jk}^{v_{jk}}}{v_{jk}!}\prod_{k}\frac{\beta_{k}}{\Gamma(\alpha_{k})}\int_{0}^{\infty}\left[l_{k}^{c_{k}+\alpha_{k}-1}\exp(-(\beta_{k}+1)l_{k})\right]dl_{k}\end{alignat*}
+
+\end_inset
+
+and 
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula \begin{alignat*}{2}
+\int_{0}^{\infty}\left[l_{k}^{c_{k}+\alpha_{k}-1}\exp(-(\beta_{k}+1)l_{k})\right]dl_{k} & =\int_{0}^{\infty}l_{k}^{z-1}\exp(-(\beta_{k}+1)l_{k})dl_{k} & |c_{k}+\alpha_{k}=z\\
+ & =\frac{1}{\left(\beta_{k}+1\right)^{z}}\int_{0}^{\infty}t^{z-1}\exp(-t)dt & |(\beta_{k}+1)l_{k}=t\\
+ & =\frac{1}{\left(\beta_{k}+1\right)^{z}}\Gamma(z)\end{alignat*}
+
+\end_inset
+
+so 
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula \[
+p(V|\alpha,\beta,\theta,K)=\prod_{k}\frac{\beta_{k}}{\left(\beta_{k}+1\right)^{c_{k}+\alpha_{k}}}\frac{\Gamma(c_{k}+\alpha_{k})}{\Gamma(\alpha_{k})}\prod_{jk}\frac{\theta_{jk}^{v_{jk}}}{v_{jk}!}\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Section*
+EM algorithm
+\end_layout
+
+\begin_layout Standard
+The term 
+\begin_inset Formula $l_{k}^{(c_{k}+\alpha_{k}-1)}=l_{k}^{(\sum_{j}v_{jk}+\alpha_{k}-1)}$
+\end_inset
+
+ in Eq.
+\begin_inset CommandInset ref
+LatexCommand eqref
+reference "eq:likelihood V,l"
+
+\end_inset
+
+ links together 
+\begin_inset Formula $l_{k}$
+\end_inset
+
+ and 
+\begin_inset Formula $V$
+\end_inset
+
+ and prevents simple evaluation of 
+\begin_inset Formula $\mathcal{Q}(\theta,\theta^{\mathrm{old}})=\mathbb{E}_{p(V,l|\theta^{\mathrm{old}})}\left[\log p(V,l|\theta,...)\right]$
+\end_inset
+
+ in the EM algorithm because of the term 
+\begin_inset Formula $\mathbb{E}_{p(V,l|\theta^{\mathrm{old}})}\left[v_{jk}\right]$
+\end_inset
+
+.
+ It comes from the Poisson term 
+\begin_inset Formula $\mathrm{Po}(c_{k};l_{k})$
+\end_inset
+
+ in 
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\bar no
+\noun off
+\color none
+\lang english
+
+\begin_inset Formula $p(V,l|\alpha,\beta,\theta,K)$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Standard
+In the likelihood Eq.
+\begin_inset CommandInset ref
+LatexCommand eqref
+reference "eq:likelihood l"
+
+\end_inset
+
+ is problematic the term 
+\begin_inset Formula $w_{k}\log\sum_{k}\theta_{jk}l_{k}$
+\end_inset
+
+.
+ (In 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "canny"
+
+\end_inset
+
+ is the term 
+\begin_inset Formula $\mathbb{E}_{l}\left[\log\sum_{k}\theta_{jk}l_{k}\right]$
+\end_inset
+
+ approximated by 
+\begin_inset Formula $\log\mathbb{E}_{l}\left[\sum_{k}\theta_{jk}l_{k}\right]$
+\end_inset
+
+ which might be quite crude.)
+\end_layout
+
+\begin_layout Section*
+Section 7.1 Variational Approximation
+\end_layout
+
+\begin_layout Standard
+Factorised approximate posterior distribution for latent variables:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula \[
+p(l,V|w,\alpha,\beta,\theta,K)\approx q(l,V)=q_{l}(l)q_{V}(V)\]
+
+\end_inset
+
+Optimal solution 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "bishop"
+
+\end_inset
+
+
+\begin_inset Formula \begin{alignat}{1}
+\log q_{l}^{*}(l) & =\mathbb{E}_{V\sim q_{V}}\left[\log p(V,l,w|\theta,\alpha,\beta)\right]+\mathrm{const}\label{eq:optimal q(l)}\\
+\log q_{V}^{*}(V) & =\mathbb{E}_{l\sim q_{l}}\left[\log p(V,l,w|\theta,\alpha,\beta)\right]+\mathrm{const}\label{eq:optimal q(V)}\end{alignat}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+The lower bound is given by 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "bishop"
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula \[
+\mathcal{L}(q,\theta)=\sum_{z}p(Z|X,\theta^{\mathrm{old}})\log p(X,Z|\theta)+C=\mathcal{Q}(\theta,\theta^{\mathrm{old}})+C\]
+
+\end_inset
+
+where 
+\begin_inset Formula \[
+C=-\mathbb{E}_{l\sim q_{l}}\left[\log q_{l}\right]-\mathbb{E}_{V\sim q_{V}}\left[\log q_{V}\right]=H(q_{l})+H(q_{V})\]
+
+\end_inset
+
+are the entropy terms (independent on 
+\begin_inset Formula $\theta$
+\end_inset
+
+).
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula \begin{equation}
+\log p(w|\theta,\alpha,\beta,K)\geq\mathbb{E}_{l,V\sim q(l,V)}\left[\log p(l,V,w|\theta,\alpha,\beta,K)\right]+C\label{eq:lower bound}\end{equation}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+The functional form of the complete likelihood suggests
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula \begin{alignat}{1}
+q_{l}(l) & =\prod_{k}\mathrm{Gamma}(l_{l};\alpha_{k},\beta_{k})=\prod_{k}\frac{l_{k}^{a_{k}-1}b_{k}^{a_{k}}\exp(-b_{k}l_{k})}{\Gamma(a_{k})}\label{eq:q(l)}\\
+q_{V}(V) & =\prod_{jk}\mathrm{Mutlinom}(v_{jk};n_{jk},w_{j})=\prod_{jk}\frac{w_{j}!}{v_{jk}!}n_{jk}^{v_{jk}}\label{eq:q(V)}\end{alignat}
+
+\end_inset
+
+with 
+\begin_inset Formula $\sum_{k}n_{jk}=1$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Standard
+Then from Eq.
+\begin_inset CommandInset ref
+LatexCommand eqref
+reference "eq:optimal q(l)"
+
+\end_inset
+
+, 
+\begin_inset CommandInset ref
+LatexCommand eqref
+reference "eq:q(l)"
+
+\end_inset
+
+ and 
+\begin_inset CommandInset ref
+LatexCommand eqref
+reference "eq:log-likelihood V,l"
+
+\end_inset
+
+ keeping terms dependent on 
+\begin_inset Formula $l$
+\end_inset
+
+
+\begin_inset Formula \[
+(a_{k}-1)\log l_{k}-b_{k}l_{k}+\mathrm{const}=(\sum_{j}\mathbb{E}_{V}\left[v_{jk}\right]+\alpha_{k}-1)\log l_{k}-(\beta_{k}+1)l_{k}+\mathrm{const}\]
+
+\end_inset
+
+where 
+\begin_inset Formula $c_{k}=\sum_{j}v_{jk}$
+\end_inset
+
+.
+ Form Eq.
+\begin_inset CommandInset ref
+LatexCommand eqref
+reference "eq:optimal q(V)"
+
+\end_inset
+
+, 
+\begin_inset CommandInset ref
+LatexCommand eqref
+reference "eq:q(V)"
+
+\end_inset
+
+ and 
+\begin_inset CommandInset ref
+LatexCommand eqref
+reference "eq:log-likelihood V,l"
+
+\end_inset
+
+ keeping terms dependent on 
+\begin_inset Formula $V$
+\end_inset
+
+
+\begin_inset Formula \[
+v_{jk}\log n_{jk}-\log v_{jk}!+\mathrm{const}=v_{jk}\mathbb{E}_{l}\left[\log l_{k}\right]+v_{jk}\log\theta_{jk}-\log v_{jk}!+\mathrm{const}\]
+
+\end_inset
+
+so the rewrite rules for the parameters:
+\begin_inset Formula \begin{alignat}{1}
+n_{jk} & =\frac{1}{z_{j}}\theta_{jk}\exp(\mathbb{E}_{l}\left[\log l_{k}\right])\nonumber \\
+a_{k} & =\sum_{j}n_{jk}w_{j}+\alpha_{k}\label{eq:rewrite rules}\\
+b_{k} & =1+\beta_{k}\nonumber \end{alignat}
+
+\end_inset
+
+where 
+\begin_inset Formula $z_{j}$
+\end_inset
+
+ is the normalisation constant (
+\begin_inset Formula $\sum_{k}n_{jk}=1$
+\end_inset
+
+) so 
+\begin_inset Formula $z_{j}=\sum_{k}\theta_{jk}\exp(\mathbb{E}_{l}\left[\log l_{k}\right])$
+\end_inset
+
+ and 
+\begin_inset Formula $\sum_{j}\mathbb{E}_{V}\left[v_{jk}\right]=\sum_{j}n_{jk}w_{j}$
+\end_inset
+
+ (Eq.
+\begin_inset CommandInset ref
+LatexCommand eqref
+reference "eq:q(V)"
+
+\end_inset
+
+).
+ 
+\begin_inset Formula $\mathbb{E}_{l\sim q_{l}}\left[\log l_{k}\right]=\psi_{0}(a_{k})-\log b_{k}$
+\end_inset
+
+ where 
+\begin_inset Formula $\psi_{0}$
+\end_inset
+
+ is digamma function (logarithmic derivation of the gamma function) and
+ so 
+\begin_inset Formula \[
+n_{jk}=\frac{1}{z_{j}}\theta_{jk}\exp(\psi_{0}(a_{k})-\log b_{k})\]
+
+\end_inset
+
+ 
+\end_layout
+
+\begin_layout Standard
+Now recompute model parameter 
+\begin_inset Formula $\mathbf{\theta}$
+\end_inset
+
+ by maximising lower bound Eq.
+\begin_inset CommandInset ref
+LatexCommand eqref
+reference "eq:lower bound"
+
+\end_inset
+
+ (with constraints 
+\begin_inset Formula $\sum_{j}\theta_{jk}=1$
+\end_inset
+
+).
+ Keeping only term dependent on 
+\begin_inset Formula $\theta_{jk}$
+\end_inset
+
+:
+\begin_inset Formula \begin{alignat*}{1}
+\mathcal{L}(\theta) & =\sum_{j,k}\mathbb{E}_{q_{V}(V)}\left[v_{jk}\right]\log\theta_{jk}+\mathrm{const}\\
+ & =\sum_{j,k}n_{jk}w_{j}\log\theta_{jk}+\mathrm{const}\end{alignat*}
+
+\end_inset
+
+(from Eq.
+\begin_inset CommandInset ref
+LatexCommand eqref
+reference "eq:q(V)"
+
+\end_inset
+
+ 
+\begin_inset Formula $\mathbb{E}_{q_{V}(V)}\left[v_{jk}\right]=w_{j}n_{jk}$
+\end_inset
+
+) 
+\begin_inset Formula \[
+0=\frac{\partial}{\partial\theta_{mn}}\left[\sum_{j,k}n_{jk}w_{j}\log\theta_{jk}+\lambda_{k}(1-\sum_{p}\theta_{pk})\right]\]
+
+\end_inset
+
+we get 
+\begin_inset Formula \[
+\theta_{mn}=\frac{n_{mn}w_{m}}{\lambda_{n}}\]
+
+\end_inset
+
+and from normalisation constraints 
+\begin_inset Formula $\lambda_{n}=\sum_{m}n_{mn}w_{m}$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Standard
+If we take likelihood function over all documents (
+\begin_inset Formula $i=1:L$
+\end_inset
+
+) each 
+\begin_inset Formula $w_{j}\rightarrow w_{j(i)}$
+\end_inset
+
+ and 
+\begin_inset Formula $n_{jk}\rightarrow n_{jk(i)}$
+\end_inset
+
+ then we get 
+\begin_inset Formula \begin{equation}
+\theta_{mn}=\frac{\sum_{i}n_{mn(i)}w_{m(i)}}{\lambda_{n}}\label{eq:update theta}\end{equation}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Buntine 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "buntine"
+
+\end_inset
+
+ even introduce prior on 
+\begin_inset Formula $\theta_{jk}\sim\mathrm{Dirichlet(\theta_{jk};\gamma,J)=C(\gamma_{j})\prod_{j=1}^{J}\theta_{jk}^{\gamma_{j}-1}}$
+\end_inset
+
+.
+ This is incorporated into the complete log-likelihood function 
+\begin_inset Formula $p(V,l,w,\theta|\alpha,\beta,K)$
+\end_inset
+
+ so that lower bound 
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\bar no
+\noun off
+\color none
+
+\begin_inset Formula $\mathbb{E}_{l,V\sim q(l,V)}\left[\log p(l,V,w,\theta|\alpha,\beta,K)\right]$
+\end_inset
+
+ and terms dependent on 
+\begin_inset Formula $\theta$
+\end_inset
+
+:
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\bar default
+\noun default
+\color inherit
+
+\begin_inset Formula \begin{alignat*}{1}
+\mathcal{L}(\theta) & =\sum_{i,j,k}\mathbb{E}_{q_{V}(V)}\left[v_{jk(i)}\right]\log\theta_{jk}+(\gamma_{j}-1)\log\theta_{jk}+\mathrm{const}\\
+ & =(\sum_{i,j,k}n_{jk(i)}w_{j(i)}+\gamma_{j}-1)\log\theta_{jk}+\mathrm{const}\end{alignat*}
+
+\end_inset
+
+and by maximising with normalisation constraints:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula \begin{equation}
+\theta_{mn}\propto\sum_{i}n_{mn(i)}w_{m(i)}+\gamma_{j}\label{eq:update theta - prior}\end{equation}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+The lower bound Eq.
+\begin_inset CommandInset ref
+LatexCommand eqref
+reference "eq:lower bound"
+
+\end_inset
+
+
+\begin_inset Formula \begin{alignat*}{1}
+\mathcal{L}(\theta) & =\mathbb{E}_{l,V\sim q(l,V)}\left[\sum_{k}(c_{k}+\alpha_{k}-1)\log l_{k}-(\beta_{k}+1)l_{k}+\log\frac{\beta_{k}^{\alpha_{k}}}{\Gamma(\alpha_{k})}+\sum_{j}\left[v_{jk}\log\theta_{jk}-\log v_{jk}!\right]\right]+C\\
+ & =\sum_{k}\mathbb{E}_{l}\left[\log l_{k}\right](\sum_{j}\mathbb{E}_{V}\left[v_{jk}\right]+\alpha_{k}-1)-(\beta_{k}+1)l_{k}+\log\frac{\beta_{k}^{\alpha_{k}}}{\Gamma(\alpha_{k})}\\
+ & +\sum_{j}\left[\mathbb{E}_{V}\left[v_{jk}\right]\left(\log n_{jk}+\log z_{j}-\mathbb{E}_{l}\left[\log l_{k}\right]-\mathbb{E}_{V}\left[\log v_{jk}!\right]\right)\right]+C\\
+ & =\sum_{k}\mathbb{E}_{l}\left[\log l_{k}\right](\alpha_{k}-1)-(\beta_{k}+1)l_{k}+\log\frac{\beta_{k}^{\alpha_{k}}}{\Gamma(\alpha_{k})}+\sum_{j}\left[\mathbb{E}_{V}\left[v_{jk}\right]\left(\log n_{jk}+\log z_{j}-\log v_{jk}!\right)\right]+C\end{alignat*}
+
+\end_inset
+
+where Eq.
+\begin_inset CommandInset ref
+LatexCommand eqref
+reference "eq:rewrite rules"
+
+\end_inset
+
+ for 
+\begin_inset Formula $\theta$
+\end_inset
+
+ was used and 
+\begin_inset Formula $c_{k}=\sum_{j}v_{jk}$
+\end_inset
+
+.
+ 
+\end_layout
+
+\begin_layout Standard
+Including entropy terms 
+\begin_inset Formula $C=H(q_{l})+H(q_{V})$
+\end_inset
+
+ from Eq.
+\begin_inset CommandInset ref
+LatexCommand eqref
+reference "eq:lower bound"
+
+\end_inset
+
+
+\begin_inset Formula \begin{alignat*}{1}
+H(q_{l}) & =-\sum_{k}\left\{ (a_{k}-1)\mathbb{E}_{l}\left[\log l_{k}\right]-b_{k}\mathbb{E}_{l}\left[l_{k}\right]-\log\frac{b_{k}^{a_{k}}}{\Gamma(a_{k})}\right\} \\
+H(q_{V}) & =-\sum_{jk}\left\{ -\mathbb{E}_{V}\left[\log v_{jk}!\right]+\mathbb{E}_{V}\left[v_{jk}\right]\log n_{jk}+\log w_{j}!\right\} \end{alignat*}
+
+\end_inset
+
+we get 
+\begin_inset Formula \begin{equation}
+\mathcal{L}=\sum_{k}\mathbb{E}_{l}\left[\log l_{k}\right](\alpha_{k}-a_{k})+\sum_{j}w_{j}\log z_{j}+\sum_{k}\log\frac{\Gamma(a_{k})\beta_{k}^{\alpha_{k}}}{\Gamma(\alpha_{k})b_{k}^{a_{k}}}-\log\prod_{j}w_{j}!\label{eq:lower bound final}\end{equation}
+
+\end_inset
+
+where Eq.
+\begin_inset CommandInset ref
+LatexCommand eqref
+reference "eq:rewrite rules"
+
+\end_inset
+
+ for 
+\begin_inset Formula $b_{k}$
+\end_inset
+
+ and 
+\begin_inset Formula $\sum_{k}n_{jk}=1$
+\end_inset
+
+ was used.
+ 
+\end_layout
+
+\begin_layout Standard
+After initialisation the algorithm then repeats until convergence:
+\end_layout
+
+\begin_layout Enumerate
+For each document: update 
+\begin_inset Formula $n_{jk}$
+\end_inset
+
+ and 
+\begin_inset Formula $a_{k}$
+\end_inset
+
+ according to Eq.
+\begin_inset CommandInset ref
+LatexCommand eqref
+reference "eq:rewrite rules"
+
+\end_inset
+
+ (variational E step).
+\end_layout
+
+\begin_layout Enumerate
+Update 
+\begin_inset Formula $\mathbf{\theta}$
+\end_inset
+
+ according to Eq.
+\begin_inset CommandInset ref
+LatexCommand eqref
+reference "eq:update theta"
+
+\end_inset
+
+ or 
+\begin_inset CommandInset ref
+LatexCommand eqref
+reference "eq:update theta - prior"
+
+\end_inset
+
+ (variational M step).
+\end_layout
+
+\begin_layout Enumerate
+Compute lower bound on log-probability Eq.
+\begin_inset CommandInset ref
+LatexCommand eqref
+reference "eq:lower bound final"
+
+\end_inset
+
+ and check for convergence.
+\end_layout
+
+\begin_layout Section*
+\begin_inset Newpage pagebreak
+\end_inset
+
+
+\end_layout
+
+\begin_layout Section*
+Notes
+\end_layout
+
+\begin_layout Standard
+Image of the digamma function 
+\begin_inset Formula $\psi_{0}(x)$
+\end_inset
+
+ and its exponential 
+\begin_inset Formula $\exp(\psi_{0}(x))$
+\end_inset
+
+ (pretty much linear 
+\begin_inset Formula $\exp(\psi_{0}(x))\approx x$
+\end_inset
+
+ for 
+\begin_inset Formula $x>10$
+\end_inset
+
+).
+ 
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float figure
+placement H
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\align center
+\begin_inset Graphics
+	filename images/psi.eps
+	scale 40
+
+\end_inset
+
+
+\begin_inset Graphics
+	filename images/exppsi.eps
+	scale 40
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption
+
+\begin_layout Plain Layout
+Digamma function and its expontntial.
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+In my notation:
+\begin_inset Formula \[
+\mathbb{E}_{v\sim p(v|w,h)}\left[v_{j}\right]=\sum_{k=1}^{K}w_{jk}h_{k}\]
+
+\end_inset
+
+where 
+\begin_inset Formula $V_{ji}$
+\end_inset
+
+ is data matrix (
+\begin_inset Formula $J$
+\end_inset
+
+ pixels and 
+\begin_inset Formula $I$
+\end_inset
+
+ images), 
+\begin_inset Formula $w_{jk}$
+\end_inset
+
+ is loading matrix (PSFs) (
+\begin_inset Formula $J$
+\end_inset
+
+ pixels and 
+\begin_inset Formula $K$
+\end_inset
+
+ components) and 
+\begin_inset Formula $h_{ki}$
+\end_inset
+
+ are intensities of each component (
+\begin_inset Formula $K$
+\end_inset
+
+ components and 
+\begin_inset Formula $I$
+\end_inset
+
+ images).
+\end_layout
+
+\begin_layout Standard
+Rewrite rules:
+\begin_inset Formula \begin{alignat*}{1}
+n_{jk(i)} & =\frac{1}{z_{j}}w_{jk}\exp(\psi_{0}(a_{k(i)})-\log b_{k(i)})\\
+a_{k(i)} & =\sum_{j}n_{jk(i)}v_{j(i)}+\alpha_{k}\\
+b_{k(i)} & =1+\beta_{k}\end{alignat*}
+
+\end_inset
+
+and 
+\begin_inset Formula \[
+w_{jk}=\frac{\sum_{i}n_{jk(i)}v_{j(i)}}{\lambda_{j}}\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+The lower bound on the log-likelihood:
+\begin_inset Formula \[
+\mathcal{L}_{(i)}=\sum_{k}\left(\psi_{0}(a_{k(i)})-\log b_{k(i)}\right)\left(\alpha_{k}-a_{k(i)}\right)+\sum_{j}v_{j(i)}\log z_{j(i)}+\sum_{k}\log\frac{\Gamma(a_{k(i)})\beta_{k}^{\alpha_{k}}}{\Gamma(\alpha_{k})b_{k(i)}^{a_{k(i)}}}-\log\prod_{j}v_{j(i)}!\]
+
+\end_inset
+
+where 
+\begin_inset Formula $z_{j(i)}=\sum_{k}w_{jk}\exp\left(\psi_{0}(a_{k(i)})-\log b_{k(i)}\right)$
+\end_inset
+
+ and total lower bound 
+\begin_inset Formula $\mathcal{L}=\sum_{i}\mathcal{L}_{(i)}$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Standard
+\align center
+\begin_inset Float figure
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\align center
+\begin_inset Graphics
+	filename images/GammaDistribution.eps
+	scale 50
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption
+
+\begin_layout Plain Layout
+Gamma distribution for different set of parameters with mean 
+\begin_inset Formula $\alpha/\beta=700$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Bibliography
+\begin_inset CommandInset bibitem
+LatexCommand bibitem
+key "buntine"
+
+\end_inset
+
+Buntine W, Jakulin A.
+ Discrete component analysis.
+ In: Saunders C, Grobelnik M, Gunn S, Shawe-Taylor J, eds.
+ Subspace, Latent Structure and Feature Selection.
+ Springer; 2006:1â33.
+ Available at: http://www.springerlink.com/index/d53027666542q3v7.pdf [Accessed
+ January 26, 2011].
+\end_layout
+
+\begin_layout Bibliography
+\begin_inset CommandInset bibitem
+LatexCommand bibitem
+key "canny"
+
+\end_inset
+
+Canny, J.
+ (2004).
+ GaP: a factor model for discrete data.
+ Proceedings of the 27th annual international ACM SIGIR conference on Research
+ and development in information retrieval (p.
+ 122–129).
+ ACM.
+ Retrieved January 25, 2011, from http://portal.acm.org/citation.cfm?id=1009016.
+\end_layout
+
+\begin_layout Bibliography
+\begin_inset CommandInset bibitem
+LatexCommand bibitem
+key "bishop"
+
+\end_inset
+
+Bishop, C.
+ M.
+ (2006).
+ Pattern Recognition and Machine Learning.
+ (M.
+ Jordan, J.
+ Kleinberg, & B.
+ Scholkopf, Eds.)Pattern Recognition (p.
+ 738).
+ Springer.
+ doi: 10.1117/1.2819119.
+\end_layout
+
+\end_body
+\end_document
