@@ -420,7 +420,25 @@ reference "eq:likelihood V,l"
 \end_inset
 
 .
- 
+ It comes from the Poisson term 
+\begin_inset Formula $\mathrm{Po}(c_{k};l_{k})$
+\end_inset
+
+ in 
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\bar no
+\noun off
+\color none
+\lang english
+
+\begin_inset Formula $p(V,l|\alpha,\beta,\theta,K)$
+\end_inset
+
+.
 \end_layout
 
 \begin_layout Standard
