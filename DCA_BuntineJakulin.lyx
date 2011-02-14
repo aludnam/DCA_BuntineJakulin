@@ -1,4 +1,4 @@
-#LyX 1.6.5 created this file. For more info see http://www.lyx.org/
+#LyX 1.6.8 created this file. For more info see http://www.lyx.org/
 \lyxformat 345
 \begin_document
 \begin_header
@@ -494,7 +494,8 @@ key "bishop"
 
 \end_inset
 
-
+ (p.466 Eq.
+ (10.9))
 \begin_inset Formula \begin{alignat}{1}
 \log q_{l}^{*}(l) & =\mathbb{E}_{V\sim q_{V}}\left[\log p(V,l,w|\theta,\alpha,\beta)\right]+\mathrm{const}\label{eq:optimal q(l)}\\
 \log q_{V}^{*}(V) & =\mathbb{E}_{l\sim q_{l}}\left[\log p(V,l,w|\theta,\alpha,\beta)\right]+\mathrm{const}\label{eq:optimal q(V)}\end{alignat}
@@ -512,26 +513,24 @@ key "bishop"
 
 \end_inset
 
-
+ (p.465 Eq.
+ (10.3))
 \end_layout
 
 \begin_layout Standard
 \begin_inset Formula \[
-\mathcal{L}(q,\theta)=\sum_{z}p(Z|X,\theta^{\mathrm{old}})\log p(X,Z|\theta)+C=\mathcal{Q}(\theta,\theta^{\mathrm{old}})+C\]
+\mathcal{L}(q,\theta)=\sum_{z}q(Z)\log\frac{p(X,Z|\theta)}{q(Z)}=\sum_{z}q(Z)\log p(X,Z|\theta)+H(q_{l})+H(q_{V})\]
 
 \end_inset
 
-where 
-\begin_inset Formula \[
-C=-\mathbb{E}_{l\sim q_{l}}\left[\log q_{l}\right]-\mathbb{E}_{V\sim q_{V}}\left[\log q_{V}\right]=H(q_{l})+H(q_{V})\]
+where
+\begin_inset Formula \begin{alignat*}{1}
+H(q_{l}) & =-\mathbb{E}_{l\sim q_{l}}\left[\log q_{l}\right]\\
+H(q_{V}) & =-\mathbb{E}_{V\sim q_{V}}\left[\log q_{V}\right]\end{alignat*}
 
 \end_inset
 
-are the entropy terms (independent on 
-\begin_inset Formula $\theta$
-\end_inset
-
-).
+ are the entropy terms.
 \end_layout
 
 \begin_layout Standard
@@ -853,12 +852,7 @@ reference "eq:rewrite rules"
 \begin_inset Formula $c_{k}=\sum_{j}v_{jk}$
 \end_inset
 
-.
- 
-\end_layout
-
-\begin_layout Standard
-Including entropy terms 
+ and where 
 \begin_inset Formula $C=H(q_{l})+H(q_{V})$
 \end_inset
 
@@ -869,14 +863,14 @@ reference "eq:lower bound"
 
 \end_inset
 
-
+:
 \begin_inset Formula \begin{alignat*}{1}
 H(q_{l}) & =-\sum_{k}\left\{ (a_{k}-1)\mathbb{E}_{l}\left[\log l_{k}\right]-b_{k}\mathbb{E}_{l}\left[l_{k}\right]-\log\frac{b_{k}^{a_{k}}}{\Gamma(a_{k})}\right\} \\
 H(q_{V}) & =-\sum_{jk}\left\{ -\mathbb{E}_{V}\left[\log v_{jk}!\right]+\mathbb{E}_{V}\left[v_{jk}\right]\log n_{jk}+\log w_{j}!\right\} \end{alignat*}
 
 \end_inset
 
-we get 
+Including these terms we get 
 \begin_inset Formula \begin{equation}
 \mathcal{L}=\sum_{k}\mathbb{E}_{l}\left[\log l_{k}\right](\alpha_{k}-a_{k})+\sum_{j}w_{j}\log z_{j}+\sum_{k}\log\frac{\Gamma(a_{k})\beta_{k}^{\alpha_{k}}}{\Gamma(\alpha_{k})b_{k}^{a_{k}}}-\log\prod_{j}w_{j}!\label{eq:lower bound final}\end{equation}
 
